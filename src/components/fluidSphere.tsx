@@ -8,7 +8,7 @@ import { useControls } from "leva";
 import { Mesh, ShaderMaterial, Color } from "three";
 
 import { useWindowSize } from "../utils/useWindowSize";
-import { Analyser, context, UserMedia } from "tone";
+import { Analyser, getContext, UserMedia } from "tone";
 import { initShaders } from "../utils/initShaders";
 
 function FluidSphere({ visible }: { visible: boolean }) {
@@ -59,8 +59,10 @@ function FluidSphere({ visible }: { visible: boolean }) {
                 analyserRef.current = analyser;
 
                 document.addEventListener("click", async () => {
-                    if (context.state !== "running") {
-                        await context.resume();
+                    const audioContext = getContext();
+
+                    if (audioContext.state !== "running") {
+                        await audioContext.resume();
                         setAudioStarted(true);
                     }
                 });

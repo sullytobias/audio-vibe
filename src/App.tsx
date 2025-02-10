@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Leva } from "leva";
+import { Leva, useControls } from "leva";
 
 import MorphingBubble from "./components/loader";
 import FluidSphere from "./components/fluidSphere";
@@ -18,6 +18,14 @@ export default function App() {
         setTimeout(() => setLoading(false), 5000);
     }, []);
 
+    const { amplitude, frequency, speed, color, multiplier } = useControls({
+        amplitude: { value: 2, min: 0, max: 20, step: 0.1 },
+        frequency: { value: 10, min: 1, max: 50, step: 0.1 },
+        speed: { value: 2, min: 0, max: 10, step: 0.1 },
+        multiplier: { value: 1, min: 1, max: 10, step: 0.1 },
+        color: { value: "#ff7f50" },
+    });
+
     return (
         <div className={(darkMode ? "dark" : "light") + " app"}>
             <Leva />
@@ -33,7 +41,14 @@ export default function App() {
                     intensity={darkMode ? 0.3 : 0.7}
                 />
                 {loading && <MorphingBubble />}
-                <FluidSphere visible={!loading} />
+                <FluidSphere
+                    amplitude={amplitude}
+                    frequency={frequency}
+                    speed={speed}
+                    color={color}
+                    multiplier={multiplier}
+                    visible={!loading}
+                />
             </Canvas>
         </div>
     );

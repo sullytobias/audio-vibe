@@ -3,27 +3,31 @@ import { useFrame } from "@react-three/fiber";
 
 import { animated, useSpring } from "@react-spring/three";
 
-import { useControls } from "leva";
-
 import { Mesh, ShaderMaterial, Color } from "three";
 
 import { useWindowSize } from "../utils/useWindowSize";
 import { Analyser, getContext, UserMedia } from "tone";
 import { initShaders } from "../utils/initShaders";
 
-function FluidSphere({ visible }: { visible: boolean }) {
+function FluidSphere({
+    visible,
+    amplitude,
+    speed,
+    multiplier,
+    color,
+    frequency,
+}: {
+    visible: boolean;
+    amplitude: number;
+    speed: number;
+    multiplier: number;
+    color: string;
+    frequency: number;
+}) {
     const mesh = useRef<Mesh>(null);
     const analyserRef = useRef<Analyser | null>(null);
     const [audioStarted, setAudioStarted] = useState(false);
     const [shadersMat, setShadersMat] = useState<ShaderMaterial | null>(null);
-
-    const { amplitude, frequency, speed, color, multiplier } = useControls({
-        amplitude: { value: 2, min: 0, max: 20, step: 0.1 },
-        frequency: { value: 10, min: 1, max: 50, step: 0.1 },
-        speed: { value: 2, min: 0, max: 10, step: 0.1 },
-        multiplier: { value: 1, min: 1, max: 10, step: 0.1 },
-        color: { value: "#ff7f50" },
-    });
 
     const { width } = useWindowSize();
     const sphereSize = width < 768 ? 1.5 : 2.5;

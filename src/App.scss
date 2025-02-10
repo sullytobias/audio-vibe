@@ -1,0 +1,42 @@
+.app {
+    height: 100vh;
+
+    transition: background 0.7s, color 0.7s;
+}
+
+.light {
+    background: #f0f0f0;
+    color: #222;
+}
+
+.dark {
+    background: #121212;
+    color: #fff;
+}
+
+.theme-toggle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+    background: #222;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+    z-index: 1;
+
+    &:hover {
+        background: #444;
+    }
+}
+
+.dark .theme-toggle {
+    background: #fff;
+    color: #222;
+
+    &:hover {
+        background: #ddd;
+    }
+}

@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build project
+        run: yarn build
+
+      - name: Deploy to gh-pages
+        run: |
+          # Initialize a new Git repository in the build output folder
+          cd dist  # Make sure this path matches your build output folder
+          git init
+          
+          # Set GitHub Actions as the user
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Add and commit changes
+          git add .
+          git commit -m "Deploy to gh-pages"
+
+          # Push to gh-pages branch using the PAT
+          git push --force "https://${{ secrets.GH_TOKEN }}@github.com/sullytobias/audio-vibe.git" HEAD:gh-pages

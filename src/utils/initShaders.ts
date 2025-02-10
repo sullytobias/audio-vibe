@@ -19,10 +19,10 @@ export async function initShaders(
         vertexShader,
         fragmentShader,
         uniforms: {
-            uTime: { value: 0 },
-            uAmplitude: { value: 0 },
-            uFrequency: { value: 0 },
-            uSpeed: { value: 0 },
+            uTime: { value: 2 },
+            uAmplitude: { value: 2 },
+            uFrequency: { value: 10 },
+            uSpeed: { value: 1 },
             uColor: { value: new Color(0xff7f50) },
         },
     });

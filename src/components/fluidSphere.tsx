@@ -41,9 +41,10 @@ function FluidSphere({
         const loadShaders = async () => {
             try {
                 const material = await initShaders(
-                    "shaders/vertexShader.glsl",
-                    "shaders/fragmentShader.glsl"
+                    "/shaders/vertexShader.glsl",
+                    "/shaders/fragmentShader.glsl"
                 );
+
                 setShadersMat(material);
             } catch (error) {
                 console.error("Failed to load shaders:", error);

@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 
 import { animated, useSpring } from "@react-spring/three";
 
-import { Mesh, ShaderMaterial, Color } from "three";
+import { ShaderMaterial, Color } from "three";
 
 import { useWindowSize } from "../utils/useWindowSize";
 import { Analyser, getContext, UserMedia } from "tone";
@@ -24,9 +24,7 @@ function FluidSphere({
     color: string;
     frequency: number;
 }) {
-    const mesh = useRef<Mesh>(null);
     const analyserRef = useRef<Analyser | null>(null);
-    const [audioStarted, setAudioStarted] = useState(false);
     const [shadersMat, setShadersMat] = useState<ShaderMaterial | null>(null);
 
     const { width } = useWindowSize();
@@ -65,10 +63,8 @@ function FluidSphere({
                 document.addEventListener("click", async () => {
                     const audioContext = getContext();
 
-                    if (audioContext.state !== "running") {
+                    if (audioContext.state !== "running")
                         await audioContext.resume();
-                        setAudioStarted(true);
-                    }
                 });
             } catch (error) {
                 console.error("Error accessing microphone:", error);
@@ -79,13 +75,7 @@ function FluidSphere({
     }, []);
 
     useFrame(({ clock }) => {
-        if (
-            !mesh.current ||
-            !analyserRef.current ||
-            !audioStarted ||
-            !shadersMat
-        )
-            return;
+        if (!analyserRef.current || !shadersMat) return;
 
         const rawData = analyserRef.current.getValue() as Float32Array;
         const averageAmplitude =
@@ -103,7 +93,7 @@ function FluidSphere({
     if (!shadersMat) return null;
 
     return (
-        <animated.mesh ref={mesh} scale={scale}>
+        <animated.mesh scale={scale}>
             <sphereGeometry args={[sphereSize, 64, 64]} />
             <primitive object={shadersMat} attach="material" />
         </animated.mesh>
